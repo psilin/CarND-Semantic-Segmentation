@@ -46,3 +46,44 @@ If you are unfamiliar with GitHub , Udacity has a brief [GitHub tutorial](http:/
 To learn about REAMDE files and Markdown, Udacity provides a free [course on READMEs](https://www.udacity.com/courses/ud777), as well. 
 
 GitHub also provides a [tutorial](https://guides.github.com/features/mastering-markdown/) about creating Markdown files.
+
+### Reflection
+
+
+
+[image1]: ./pics/good-01.png ""
+[image2]: ./pics/good-02.png ""
+[image3]: ./pics/good-03.png ""
+[image4]: ./pics/good-04.png ""
+[image5]: ./pics/good-05.png ""
+[image6]: ./pics/good-06.png ""
+[image7]: ./pics/good-07.png ""
+[image8]: ./pics/good-08.png ""
+[image9]: ./pics/good-09.png ""
+[image10]: ./pics/good-10.png ""
+[image11]: ./pics/bad-01.png ""
+[image12]: ./pics/bad-02.png ""
+[image13]: ./pics/bad-03.png ""
+[image14]: ./pics/bad-04.png ""
+[image15]: ./pics/bad-05.png ""
+
+##### Examples of images where network performs well:
+
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
+![alt text][image10]
+
+##### Examples of images where network performs not so good:
+
+![alt text][image11]
+![alt text][image12]
+![alt text][image13]
+![alt text][image14]
+![alt text][image15]
