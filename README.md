@@ -1,4 +1,81 @@
 # Semantic Segmentation
+
+### Reflection
+
+Goal of this project is to use VGG-16 image classifier neural network converted tweaked to be fully convolutional to determine drivable areas on images from KITTI dataset.
+Or, in other words, perform semantic segmentation task so image pixels will be divided in 2 classes: road and non-road.
+
+Pretrained VGG-16 neural network were used as a base of architecture. Layers 3, 4, 7 and input were extracted as well as keep probability. Following layers were added to 
+complete architecture:
+
+1. 1x1 convolutional layer with `kernel=1` from VGG's Layer 7.
+2. Upsampling (deconvolutional layer) with `kernel=4` and `stride=(2,2)` from layer #1.
+3. 1x1 convolutional layer with `kernel=1` from VGG's Layer 4.
+4. Skip connection layer from layer #2 to layer #3.
+5. Upsampling layer with `kernel=4` and `stride=(2,2)` from layer #4.
+6. 1x1 convolutional layer with `kernel=1` from VGG's Layer 3.
+7. Skip connection layer from layer #5 to layer #6.
+8. Upsampling layer with `kernel=16` and `stride=(8,8)` from layer #7.
+
+For convolutional and upsampling layers random normal kerne linitializers with deviation of `0.01`
+and kernel `L2` regularizer of `0.001` were used.
+
+Softmax-cross-entropy function was chosen as a loss. Adam optimizer was used as it had not so many hyper-parameters and because of decaying learning rate.
+
+Following hyper-parameters were used in training:
+
+1. Keep probability of `0.5`.
+2. Learning rate of `0.0001`.
+3. Batch size of `2`.
+4. Training epochs of `30`.
+
+As a measure of how well semantic segmentation was done mIOU (mean interaction-over-union) metric (`tf.metrics.mean_iou()`) was chosen. Initial goal
+was to reach level of `mIOU=0.8`. After `1`-st epoch of training level of `mIOU=0.604` was reached. Desired level was reached after `6`-th epoch
+with `mIOU=0.807`. After `15`-th epoch of training level of `mIOU=0.921` was reached and `mIOU` started to grow very slowly from epoch to epoch. 
+After final `30`-th epoch of training level of `mIOU=0.933` was reached. Training time was roughly `80` minutes using Udacity GPU-equipped workspace.
+So the takeaway from training process is that `10-15` training epochs are enough to reach reasonably good level of `mIOU` and it will take `27-40` minutes
+to finish training process (which is much less than `80`).
+
+Some examples of results produced by trained network are shown below. It can be seen that in general network performs quite good but not perfect as it
+struggles sometimes to determine drivable road in shadows and near cars and other objects on the road (for example, lane lines).
+
+[image1]: ./pics/good-01.png ""
+[image2]: ./pics/good-02.png ""
+[image3]: ./pics/good-03.png ""
+[image4]: ./pics/good-04.png ""
+[image5]: ./pics/good-05.png ""
+[image6]: ./pics/good-06.png ""
+[image7]: ./pics/good-07.png ""
+[image8]: ./pics/good-08.png ""
+[image9]: ./pics/good-09.png ""
+[image10]: ./pics/good-10.png ""
+[image11]: ./pics/bad-01.png ""
+[image12]: ./pics/bad-02.png ""
+[image13]: ./pics/bad-03.png ""
+[image14]: ./pics/bad-04.png ""
+[image15]: ./pics/bad-05.png ""
+
+##### Examples of images on which network performs well:
+
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
+![alt text][image10]
+
+##### Examples of images on which network performs not so good:
+
+![alt text][image11]
+![alt text][image12]
+![alt text][image13]
+![alt text][image14]
+![alt text][image15]
+
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
 
@@ -46,44 +123,3 @@ If you are unfamiliar with GitHub , Udacity has a brief [GitHub tutorial](http:/
 To learn about REAMDE files and Markdown, Udacity provides a free [course on READMEs](https://www.udacity.com/courses/ud777), as well. 
 
 GitHub also provides a [tutorial](https://guides.github.com/features/mastering-markdown/) about creating Markdown files.
-
-### Reflection
-
-
-
-[image1]: ./pics/good-01.png ""
-[image2]: ./pics/good-02.png ""
-[image3]: ./pics/good-03.png ""
-[image4]: ./pics/good-04.png ""
-[image5]: ./pics/good-05.png ""
-[image6]: ./pics/good-06.png ""
-[image7]: ./pics/good-07.png ""
-[image8]: ./pics/good-08.png ""
-[image9]: ./pics/good-09.png ""
-[image10]: ./pics/good-10.png ""
-[image11]: ./pics/bad-01.png ""
-[image12]: ./pics/bad-02.png ""
-[image13]: ./pics/bad-03.png ""
-[image14]: ./pics/bad-04.png ""
-[image15]: ./pics/bad-05.png ""
-
-##### Examples of images where network performs well:
-
-![alt text][image1]
-![alt text][image2]
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-![alt text][image6]
-![alt text][image7]
-![alt text][image8]
-![alt text][image9]
-![alt text][image10]
-
-##### Examples of images where network performs not so good:
-
-![alt text][image11]
-![alt text][image12]
-![alt text][image13]
-![alt text][image14]
-![alt text][image15]
